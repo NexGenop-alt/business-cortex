@@ -1,0 +1,9 @@
+[submodule "khoj"]
+	path = khoj
+	url = https://github.com/khoj-ai/khoj
+	branch = main
+
+[submodule "graphify"]
+	path = graphify
+	url = https://github.com/Graphify-Labs/graphify
+	branch = main
