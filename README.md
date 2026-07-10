@@ -10,7 +10,11 @@ git clone https://github.com/NexGenop-alt/business-cortex
 cd business-cortex
 git submodule update --init --recursive
 
-# Optional: Voicebox TTS (your existing local install)
+# REQUIRED: Khoj + Graphify (memory/semantic layer)
+docker run -d -p 4200:4200 khojai/khoj
+pip install graphifyy
+
+# Optional: Voicebox TTS (local install)
 ./setup/setup.sh --include-voicebox
 
 # Skills are auto-loaded by Hermes Agent
@@ -22,21 +26,27 @@ git submodule update --init --recursive
 User Query
     ↓
 Cortex Router
-    ├── Khoj (memory/search) ← optional
-    ├── Graphify (semantic graph) ← optional  
-    ├── Skills (business ops)
+    ├── Khoj (memory/search) ← REQUIRED
+    ├── Graphify (semantic graph) ← REQUIRED
+    ├── Skills (business ops) 
     └── Voicebox TTS ← optional
 ```
 
-## Optional Components
+**Workflow example:**
+- User: *"Find conversation with Maribel from Valor on 3/2/24"*
+- Cortex routes to **both Khoj + Graphify** simultaneously
+- Graphify finds the conversation faster (semantic filtering)
+- Khoj provides the full content
+- Skills layer builds the follow-up email
+- Voicebox TTS (optional) can read it aloud
 
-| Component | What | Install |
-|-----------|------|---------|
-| **Khoj** | Search conversations, notes | `docker run -p 4200:4200 khojai/khoj` |
-| **Graphify** | Code/relationship graphs | `pip install graphifyy` |
-| **Voicebox** | Text-to-speech | `./setup/setup.sh --include-voicebox` |
+## Components
 
-**All optional** - Cortex works without any of these. Skills gracefully skip missing components.
+| Component | Required | What |
+|-----------|----------|------|
+| **Khoj** | Required | Indexed memory/search across all content |
+| **Graphify** | Required | Semantic relationships, faster context filtering |
+| **Voicebox** | Optional | TTS - skip if not needed |
 
 ## Skills Included
 

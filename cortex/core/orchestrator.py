@@ -56,12 +56,12 @@ class Cortex:
         return self._multi_layer_query(text)
     
     def _query_voicebox(self, query: str) -> str:
-        """Query local Voicebox TTS server - optional component"""
+        """Query local Voicebox TTS server - OPTIONAL component"""
         import re
         
-        # Check if Voicebox is available (optional)
+        # Check if Voicebox is available (optional - skip gracefully if not)
         if not self._check_voicebox_available():
-            return "Voicebox not installed - skipping TTS (optional component)"
+            return "Voicebox TTS not available (optional component) - skipping speech output"
         
         # Extract quoted text or text after tts/say
         match = re.search(r'["\']([^"\']+)["\']', query)
@@ -73,7 +73,7 @@ class Cortex:
         else:
             text = query
         
-        return f"Routing to Voicebox skill: '{text[:50]}...' (voice: colombian female)"
+        return f"Routing to Voicebox (optional): '{text[:50]}...' (voice: colombian female)"
     
     def _check_voicebox_available(self) -> bool:
         """Check if Voicebox is running - optional component"""
@@ -84,8 +84,26 @@ class Cortex:
         except:
             return False
     
+    def _check_khoj_available(self) -> bool:
+        """Check if Khoj is running - REQUIRED component"""
+        import httpx
+        try:
+            response = httpx.get("http://localhost:4200/api/health", timeout=2)
+            return response.status_code == 200
+        except:
+            return False
+    
+    def _check_graphify_available(self) -> bool:
+        """Check if Graphify MCP is available - REQUIRED for semantic filtering"""
+        # Graphify uses uvx/mcp, check if accessible
+        import shutil
+        return shutil.which("graphifyy") is not None
+    
     def _query_khoj(self, query: str) -> str:
-        """Query Khoj's indexed memory"""
+        """Query Khoj's indexed memory - REQUIRED component"""
+        # Check Khoj availability (required)
+        if not self._check_khoj_available():
+            raise RuntimeError("Khoj is required but not running. Start with: docker run -p 4200:4200 khojai/khoj")
         # Extract person/date if mentioned
         date_match = re.search(r'(\d{1,2}/\d{1,2}/\d{2})', query)
         person_match = re.search(r'(?:with|about|from)\s+(\w+)', query, re.I)
@@ -99,7 +117,9 @@ class Cortex:
         return f"Querying Khoj memory with filters: {json.dumps(filters)}\nResult: [Conversation found from {filters.get('date', 'matching date')} about {filters.get('person', 'relevant topic')}]"
     
     def _query_graphify(self, query: str) -> str:
-        """Query Graphify semantic graph"""
+        """Query Graphify semantic graph - REQUIRED for relationship mapping"""
+        if not self._check_graphify_available():
+            raise RuntimeError("Graphify is required but not installed. Run: pip install graphifyy")
         return f"Querying Graphify for: '{query}'\nResult: [Semantic code graph built for payment handling modules]"
     
     def _query_skills(self, query: str) -> str:
