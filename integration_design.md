@@ -362,8 +362,8 @@ memory:
 ## 6. Deployment Checklist
 
 - [ ] Install Hermes Agent with `pip install mcp` for MCP support
-- [ ] `pip install graphifyy` for Graphify CLI + MCP mode
-- [ ] Run Khoj via Docker or `pip install khoj`
+- [ ] Install Khoj: `docker run -d -p 4200:4200 khojai/khoj` (REQUIRED)
+- [ ] Install Graphify: `pip install graphifyy` (REQUIRED)
 - [ ] Configure `.env` with API keys
 - [ ] Add MCP servers to `~/.hermes/config.yaml`
 - [ ] Restart Hermes gateway: `hermes gateway restart`
@@ -371,6 +371,16 @@ memory:
 - [ ] Test query: `/memory search "test"`
 - [ ] Install sales-agent skill: `cp skills/sales/*.md ~/.hermes/skills/`
 - [ ] **Optional**: Verify Voicebox running on port 17493, test `/voicebox "hello"`
+
+### Component Requirements
+
+| Component | Required | Notes |
+|-----------|----------|-------|
+| Khoj | **Required** | Memory/search layer, no Khoj = no memory queries |
+| Graphify | **Required** | Semantic filtering, speeds up context retrieval |
+| Voicebox | Optional | TTS - only if you need audio output |
+
+**Workflow**: User query → Cortex checks both Khoj + Graphify availability → Routes to skills layer
 
 ### Optional Integrations
 
