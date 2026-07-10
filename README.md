@@ -1,66 +1,172 @@
 # Business Cortex
 
-**One AI agent that summons specialists: lead generation, sales, support, TTS.**
+**Business Cortex is a productized AI operating system for companies.**
 
-## Quick Start
+It gives a business one unified assistant that can remember context, route work
+to role-specific agents, and keep durable business state without stuffing every
+conversation and document into every prompt.
+
+Think: **Jarvis for a business** — but configurable per client and deployable on
+their own infrastructure.
+
+## What it does
+
+Business Cortex connects four layers:
+
+```text
+Business request
+    ↓
+Cortex Router / Workflow Engine
+    ↓
+Durable business state + memory lookup
+    ↓
+Role-specific specialist agents
+    ├── Sales
+    ├── Marketing
+    ├── Support
+    ├── Operations
+    └── Back Office
+```
+
+The goal is not to make one giant prompt. The goal is to send each specialist
+only the small context packet it needs.
+
+## Why it saves tokens
+
+Most agent systems waste tokens by passing the whole business history to every
+agent. Business Cortex uses a smaller pattern:
+
+1. Classify the request.
+2. Save or retrieve only the durable state needed.
+3. Build a tiny role-specific handoff packet.
+4. Require human approval before external side effects.
+5. Store the result for the next workflow.
+
+Example:
+
+```text
+"Follow up with Maria from Bright Plumbing in 5 business days."
+```
+
+Business Cortex turns that into:
+
+- a Sales handoff with pain + offer + CTA requirements
+- an Assistant handoff with calendar timing + memo
+- a CRM activity stored in SQLite
+- a next action requiring approval
+
+## Quick start
 
 ```bash
-# Required components
 git clone https://github.com/NexGenop-alt/business-cortex
 cd business-cortex
-git submodule update --init --recursive
-
-# REQUIRED: Khoj + Graphify (memory/semantic layer)
-docker run -d -p 4200:4200 khojai/khoj
-pip install graphifyy
-
-# Optional: Voicebox TTS (local install)
-./setup/setup.sh --include-voicebox
-
-# Skills are auto-loaded by Hermes Agent
+python3 -m unittest discover -v
+python3 -m cortex.cli run --config config/client.example.json \
+  "Lead: Maria owns Bright Plumbing. She needs missed-call follow-up automation. Follow up in 5 business days at 10am." \
+  --format json
 ```
+
+## Client configuration
+
+Every client gets its own config. This keeps the product industry-agnostic.
+
+```bash
+python3 -m cortex.cli init-client config/plumbing-co.json \
+  --name "Bright Plumbing" \
+  --industry "home services"
+```
+
+Then edit:
+
+```text
+config/plumbing-co.json
+```
+
+Key sections:
+
+| Section | Purpose |
+|---|---|
+| `organization` | Client name and industry |
+| `offer` | What the client sells / what automations should optimize for |
+| `agents` | Role-specific workers and their profiles |
+| `storage` | Local SQLite state path |
+
+## Current MVP workflows
+
+### Lead follow-up workflow
+
+Input:
+
+```text
+Lead: Maria owns Bright Plumbing. She needs missed-call follow-up automation. Follow up in 5 business days at 10am.
+```
+
+Output:
+
+```text
+workflow: lead_followup
+handoff: sales -> Sales Agent
+handoff: assistant -> Assistant Agent
+next_action: approve_sales_message
+```
+
+Persisted state:
+
+- lead record
+- lead intake activity
+- follow-up reminder request
+- stage update to `followup_drafted`
 
 ## Architecture
 
+```text
+cortex/
+├── cli.py                    # product CLI
+├── core/
+│   ├── orchestrator.py        # router + workflow engine
+│   ├── models.py              # handoff/result models
+│   └── store.py               # embedded CRM/workflow SQLite store
+├── skills/                    # role-specific skill documents
+└── tools/                     # audit / support tools
 ```
-User Query
-    ↓
-Cortex Router
-    ├── Khoj (memory/search) ← REQUIRED
-    ├── Graphify (semantic graph) ← REQUIRED
-    ├── Skills (business ops) 
-    └── Voicebox TTS ← optional
+
+## Existing integrations
+
+The repo still includes planned integration design for:
+
+| Component | Purpose |
+|---|---|
+| Khoj | indexed organizational memory/search |
+| Graphify | semantic knowledge graph / relationship map |
+| Voicebox | optional local TTS |
+| Hermes Agent | multi-agent runtime + skills + gateways |
+
+These are integration layers. The MVP core is intentionally usable before a
+client commits to the full stack.
+
+## Human approval gates
+
+Business Cortex should draft and prepare. It should not send emails, create
+calendar invites, or touch external systems without approval unless a client
+explicitly configures that automation level.
+
+## Product direction
+
+Subscription target:
+
+```text
+$500-$2,500/month per client
 ```
 
-**Workflow example:**
-- User: *"Find conversation with Maribel from Valor on 3/2/24"*
-- Cortex routes to **both Khoj + Graphify** simultaneously
-- Graphify finds the conversation faster (semantic filtering)
-- Khoj provides the full content
-- Skills layer builds the follow-up email
-- Voicebox TTS (optional) can read it aloud
+Positioning:
 
-## Components
+> Business Cortex consolidates organizational memory, semantic knowledge, and
+> role-specific agents into one business assistant. It helps small teams get the
+> leverage of sales, marketing, support, and operations workflows without hiring
+> a full $13k-$22k/month human team.
 
-| Component | Required | What |
-|-----------|----------|------|
-| **Khoj** | Required | Indexed memory/search across all content |
-| **Graphify** | Required | Semantic relationships, faster context filtering |
-| **Voicebox** | Optional | TTS - skip if not needed |
+## Test
 
-## Skills Included
-
-- `sales-agent` - lead sourcing, ICP, cold email
-- `marketing-agent` - content creation, campaigns  
-- `back-office-agent` - invoicing, billing
-- `support-agent` - tickets, customer queries
-- `voicebox` - TTS via local Voicebox
-
-## Usage
-
-```
-/sales icp definition
-/sales source leads san diego
-/invoice create for client-x
-/voicebox "Hello world" --voice <profile>
+```bash
+python3 -m unittest discover -v
 ```

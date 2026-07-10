@@ -1,0 +1,40 @@
+{
+  "organization": {
+    "name": "Acme Home Services",
+    "industry": "home services"
+  },
+  "offer": {
+    "default": "AI-assisted operations automation",
+    "followup": "missed-call and follow-up automation that helps capture more booked jobs"
+  },
+  "storage": {
+    "sqlite_path": ".cortex/acme-home-services.sqlite"
+  },
+  "agents": {
+    "orchestrator": {
+      "name": "Business Cortex",
+      "profile": "default",
+      "role": "strategy"
+    },
+    "sales": {
+      "name": "Sales Agent",
+      "profile": "sales",
+      "role": "sales"
+    },
+    "assistant": {
+      "name": "Assistant Agent",
+      "profile": "assistant",
+      "role": "calendar"
+    },
+    "support": {
+      "name": "Support Agent",
+      "profile": "support",
+      "role": "customer_success"
+    },
+    "operations": {
+      "name": "Operations Agent",
+      "profile": "operations",
+      "role": "operations"
+    }
+  }
+}
