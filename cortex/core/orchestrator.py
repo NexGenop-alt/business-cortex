@@ -36,6 +36,10 @@ class Cortex:
         
         text_lower = text.lower()
         
+        # Voicebox / TTS queries -> Voicebox skill
+        if any(kw in text_lower for kw in ["say", "speak", "tts", "text to speech", "/voicebox"]):
+            return self._query_voicebox(text)
+        
         # Temporal / Memory queries -> Khoj
         if any(kw in text_lower for kw in ["conversation", "chat", "notes", "memo", "jose", "talked to", "said that", "remind me"]):
             return self._query_khoj(text)
@@ -50,6 +54,35 @@ class Cortex:
         
         # Default: try all layers
         return self._multi_layer_query(text)
+    
+    def _query_voicebox(self, query: str) -> str:
+        """Query local Voicebox TTS server - optional component"""
+        import re
+        
+        # Check if Voicebox is available (optional)
+        if not self._check_voicebox_available():
+            return "Voicebox not installed - skipping TTS (optional component)"
+        
+        # Extract quoted text or text after tts/say
+        match = re.search(r'["\']([^"\']+)["\']', query)
+        if match:
+            text = match.group(1)
+        elif "say" in query.lower() or "speak" in query.lower():
+            parts = re.split(r'\bsay\b|\bspeak\b', query, flags=re.I)
+            text = parts[-1].strip() if len(parts) > 1 else "No text provided"
+        else:
+            text = query
+        
+        return f"Routing to Voicebox skill: '{text[:50]}...' (voice: colombian female)"
+    
+    def _check_voicebox_available(self) -> bool:
+        """Check if Voicebox is running - optional component"""
+        import httpx
+        try:
+            response = httpx.get("http://localhost:17493/health", timeout=2)
+            return response.status_code == 200
+        except:
+            return False
     
     def _query_khoj(self, query: str) -> str:
         """Query Khoj's indexed memory"""

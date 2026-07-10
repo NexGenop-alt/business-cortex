@@ -1,85 +1,56 @@
-# Business Cortex — Production Integration Layer
+# Business Cortex
 
-A unified AI operating system combining semantic graphs, organizational memory, and business skills.
+**One AI agent that summons specialists: lead generation, sales, support, TTS.**
 
----
-
-## 🚀 What This Repo Contains
-
-This is the **integration layer only** — clean, minimal, production-ready.
-
-| Layer | Purpose | Source Repo |
-|---|---|---|
-| Cortex Orchestrator | Query router and API glue | This repo |
-| Skills | Business automation agents | `/cortex/skills/` |
-| Tools | Utilities and auditors | `/cortex/tools/` |
-
----
-
-## 📦 Full Sources
-
-Khoj and Graphify are integrated as **git submodules** for lightweight updates:
+## Quick Start
 
 ```bash
-git clone --recursive https://github.com/NexGenop-alt/business-cortex
-# or after clone:
-git submodule update --init --recursive
-```
-
----
-
-## 🛠️ Installation
-
-```bash
-# 1. Clone with submodules
-git clone --recursive https://github.com/NexGenop-alt/business-cortex
+# Required components
+git clone https://github.com/NexGenop-alt/business-cortex
 cd business-cortex
+git submodule update --init --recursive
 
-# 2. Install services (Khoj + Graphify)
-./bin/install-services.sh
+# Optional: Voicebox TTS (your existing local install)
+./setup/setup.sh --include-voicebox
 
-# 3. Install Python deps
-pip install -r requirements.txt
-
-# 4. Configure
-cp .env.example .env
-# Edit .env with your API keys
-
-# 5. Start
-./bin/start-all.sh
+# Skills are auto-loaded by Hermes Agent
 ```
 
----
-
-## 🔍 Query Examples
-
-```python
-from cortex.orchestrator import cortex
-
-# Memory queries
-cortex.query("Find conversation with Jose on 4/13/26")
-
-# Code queries  
-cortex.query("Show code that handles payments")
-
-# Business operations
-cortex.query("Source leads matching my ICP")
-```
-
----
-
-## 📁 Structure
+## Architecture
 
 ```
-business-cortex/
-├── .gitmodules       # Khoj + Graphify as submodules
-├── bin/
-│   ├── install-services.sh
-│   └── start-all.sh
-├── cortex/
-│   ├── core/orchestrator.py
-│   ├── skills/       # 7 business agent skills
-│   └── tools/
-├── requirements.txt
-└── integration_design.md
+User Query
+    ↓
+Cortex Router
+    ├── Khoj (memory/search) ← optional
+    ├── Graphify (semantic graph) ← optional  
+    ├── Skills (business ops)
+    └── Voicebox TTS ← optional
+```
+
+## Optional Components
+
+| Component | What | Install |
+|-----------|------|---------|
+| **Khoj** | Search conversations, notes | `docker run -p 4200:4200 khojai/khoj` |
+| **Graphify** | Code/relationship graphs | `pip install graphifyy` |
+| **Voicebox** | Text-to-speech | `./setup/setup.sh --include-voicebox` |
+
+**All optional** - Cortex works without any of these. Skills gracefully skip missing components.
+
+## Skills Included
+
+- `sales-agent` - lead sourcing, ICP, cold email
+- `marketing-agent` - content creation, campaigns  
+- `back-office-agent` - invoicing, billing
+- `support-agent` - tickets, customer queries
+- `voicebox` - TTS via local Voicebox
+
+## Usage
+
+```
+/sales icp definition
+/sales source leads san diego
+/invoice create for client-x
+/voicebox "Hello world" --voice colombian
 ```

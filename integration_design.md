@@ -370,6 +370,17 @@ memory:
 - [ ] Verify tools: `hermes tools list | grep mcp`
 - [ ] Test query: `/memory search "test"`
 - [ ] Install sales-agent skill: `cp skills/sales/*.md ~/.hermes/skills/`
+- [ ] **Optional**: Verify Voicebox running on port 17493, test `/voicebox "hello"`
+
+### Optional Integrations
+
+| Component | Optional | Setup |
+|-----------|----------|-------|
+| Voicebox TTS | Yes | Ensure Docker container on port 17493 |
+| Graphify | Yes | `pip install graphifyy` or skip MCP config |
+| Khoj | Yes | Skip if using alternative memory store |
+
+All skills gracefully skip optional components if unavailable.
 
 ---
 
