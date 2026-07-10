@@ -64,6 +64,13 @@ python3 -m unittest discover -v
 python3 -m cortex.cli run --config config/client.example.json \
   "Lead: Maria owns Bright Plumbing. She needs missed-call follow-up automation. Follow up in 5 business days at 10am." \
   --format json
+
+# Preview the specialist handoffs without calling external agents
+python3 -m cortex.cli run \
+  "Lead: Maria owns Bright Plumbing. She needs missed-call follow-up automation. Follow up in 5 business days at 10am." \
+  --config config/client.example.json \
+  --dispatch dry-run \
+  --format json
 ```
 
 ## Client configuration

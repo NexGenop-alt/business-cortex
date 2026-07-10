@@ -58,6 +58,18 @@ class CortexStore:
                     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY (lead_id) REFERENCES leads(id)
                 );
+
+                CREATE TABLE IF NOT EXISTS handoff_runs (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    agent_key TEXT NOT NULL,
+                    agent_name TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    prompt TEXT NOT NULL,
+                    output TEXT NOT NULL DEFAULT '',
+                    error TEXT NOT NULL DEFAULT '',
+                    exit_code INTEGER NOT NULL DEFAULT 0,
+                    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+                );
                 """
             )
 
@@ -105,4 +117,32 @@ class CortexStore:
     def list_followups(self, lead_id: int) -> List[Dict[str, Any]]:
         with self._connect() as conn:
             rows = conn.execute("SELECT * FROM followups WHERE lead_id = ? ORDER BY id", (lead_id,)).fetchall()
+            return [dict(row) for row in rows]
+
+    def add_handoff_run(
+        self,
+        *,
+        agent_key: str,
+        agent_name: str,
+        status: str,
+        prompt: str,
+        output: str = "",
+        error: str = "",
+        exit_code: int = 0,
+    ) -> int:
+        with self._connect() as conn:
+            cur = conn.execute(
+                """
+                INSERT INTO handoff_runs(agent_key, agent_name, status, prompt, output, error, exit_code)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                """,
+                (agent_key, agent_name, status, prompt, output, error, exit_code),
+            )
+            if cur.lastrowid is None:
+                raise RuntimeError("SQLite did not return a handoff run id")
+            return int(cur.lastrowid)
+
+    def list_handoff_runs(self) -> List[Dict[str, Any]]:
+        with self._connect() as conn:
+            rows = conn.execute("SELECT * FROM handoff_runs ORDER BY id").fetchall()
             return [dict(row) for row in rows]

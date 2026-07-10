@@ -55,8 +55,9 @@ Why this first:
 - [x] embedded workflow/CRM database
 - [x] lead follow-up workflow
 - [x] role-specific handoff payloads
-- [x] tests proving routing, state, token-minimal payloads, and client-agnostic output
-- [ ] live Hermes profile dispatch
+- [x] dry-run and Hermes CLI dispatch layer
+- [x] tests proving routing, state, token-minimal payloads, dispatch, and client-agnostic output
+- [ ] live Hermes profile dispatch validation against real client profiles
 - [ ] Khoj memory adapter
 - [ ] Graphify adapter
 - [ ] calendar/email adapter behind approval gates
