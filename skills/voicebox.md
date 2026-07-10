@@ -16,8 +16,8 @@ Text-to-speech using locally-running Voicebox server.
 
 ## Usage
 ```
-/voicebox "Hello, this is my message" --voice colombian
-/voicebox --text "Good morning"
+/voicebox "Hello, this is my message"
+/voicebox --text "Good morning" --voice <profile>
 /tts "Make this an audio message"
 ```
 

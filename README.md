@@ -62,5 +62,5 @@ Cortex Router
 /sales icp definition
 /sales source leads san diego
 /invoice create for client-x
-/voicebox "Hello world" --voice colombian
+/voicebox "Hello world" --voice <profile>
 ```
