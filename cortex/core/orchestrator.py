@@ -73,7 +73,7 @@ class Cortex:
         else:
             text = query
         
-        return f"Routing to Voicebox (optional): '{text[:50]}...' (voice: colombian female)"
+        return f"Routing to Voicebox (optional): '{text[:50]}...' (voice: configurable)"
     
     def _check_voicebox_available(self) -> bool:
         """Check if Voicebox is running - optional component"""
