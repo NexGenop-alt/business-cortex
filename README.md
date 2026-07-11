@@ -97,6 +97,8 @@ Key sections:
 | `offer` | What the client sells / what automations should optimize for |
 | `agents` | Role-specific workers and their profiles |
 | `storage` | Local SQLite state path |
+| `integrations.google_workspace` | Gmail, Calendar, Drive, Docs, Sheets via GWS |
+| `integrations.microsoft_azure` | Microsoft 365 / Graph via Azure app credentials |
 
 ## Current MVP workflows
 

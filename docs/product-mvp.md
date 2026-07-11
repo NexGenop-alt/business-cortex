@@ -60,5 +60,8 @@ Why this first:
 - [ ] live Hermes profile dispatch validation against real client profiles
 - [ ] Khoj memory adapter
 - [ ] Graphify adapter
-- [ ] calendar/email adapter behind approval gates
+- [x] Google Workspace adapter payloads/commands behind approval gates
+- [x] Microsoft Azure / Graph adapter payloads behind approval gates
+- [ ] live Google Workspace execution after approval
+- [ ] live Microsoft Graph execution after approval
 - [ ] web dashboard or simple operator UI

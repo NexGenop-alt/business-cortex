@@ -10,6 +10,20 @@
   "storage": {
     "sqlite_path": ".cortex/acme-home-services.sqlite"
   },
+  "integrations": {
+    "google_workspace": {
+      "enabled": false,
+      "home": "/opt/business-cortex/clients/acme-home-services/home",
+      "services": ["gmail", "calendar", "drive", "sheets", "docs"]
+    },
+    "microsoft_azure": {
+      "enabled": false,
+      "tenant_id_env": "AZURE_TENANT_ID",
+      "client_id_env": "AZURE_CLIENT_ID",
+      "client_secret_env": "AZURE_CLIENT_SECRET",
+      "scopes": ["https://graph.microsoft.com/.default"]
+    }
+  },
   "agents": {
     "orchestrator": {
       "name": "Business Cortex",
