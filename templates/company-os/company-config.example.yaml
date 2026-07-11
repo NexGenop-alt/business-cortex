@@ -1,0 +1,84 @@
+company:
+  name: "Example Company"
+  slug: "example-company"
+  owner_name: "Business Owner"
+  industry: "Local services"
+  mission: "Serve customers reliably and grow with better follow-up and operations."
+  primary_goal: "Improve lead follow-up, internal visibility, and operational consistency."
+
+system:
+  name: "Business Cortex"
+  base_output_dir: "/opt/business-cortex/clients"
+  principle: >
+    The orchestrator keeps the company-wide operating picture. Specialist agents
+    keep isolated memories and receive only task-specific handoff packets.
+
+agents:
+  orchestrator:
+    display_name: "Operator"
+    profile: "example-operator"
+    title: "CEO / Orchestrator"
+    reports_to: "Business Owner"
+    scope:
+      - strategy
+      - company-wide context
+      - agent routing
+      - workflow design
+      - verification
+
+  techops:
+    display_name: "TechOps"
+    profile: "example-techops"
+    title: "Technology Operations"
+    scope:
+      - server and systems
+      - integrations
+      - access and security
+      - troubleshooting
+      - backups and logs
+
+  scout:
+    display_name: "Scout"
+    profile: "example-scout"
+    title: "Capability Discovery"
+    scope:
+      - skill discovery
+      - tool research
+      - workflow capability expansion
+
+  assistant:
+    display_name: "Assistant"
+    profile: "example-assistant"
+    title: "Executive Assistant"
+    scope:
+      - calendar
+      - reminders
+      - follow-ups
+      - inbox and workspace support
+
+  sales:
+    display_name: "Revenue"
+    profile: "example-sales"
+    title: "Sales / Revenue"
+    scope:
+      - sales follow-up
+      - outreach drafts
+      - objections
+      - proposals
+      - close plans
+
+approval_policy:
+  drafts_allowed: true
+  external_send_requires_approval: true
+  calendar_changes_require_approval: true
+  destructive_system_changes_require_approval: true
+  memory_merges_require_approval: true
+
+integrations:
+  google_workspace:
+    enabled: false
+  microsoft_365:
+    enabled: false
+  crm:
+    enabled: false
+    name: ""

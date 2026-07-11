@@ -194,6 +194,24 @@ The completed answers should be converted into client config, operating rules,
 workflow maps, approval policy, memory seeds, role-agent definitions, and a
 first-30-days implementation plan.
 
+## Company OS template
+
+Use the reusable company-agent OS template to turn a client's config into an
+operating folder with agent roles, memory boundaries, approval rules, and a
+handoff protocol:
+
+```bash
+python3 templates/company-os/scripts/render-company-os.py \
+  --config templates/company-os/company-config.example.yaml \
+  --output /tmp/example-company-os
+```
+
+Template location:
+
+```text
+templates/company-os/
+```
+
 ## Client account login plans
 
 Business Cortex can print safe setup/login plans for client-owned Google
