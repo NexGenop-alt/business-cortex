@@ -1,4 +1,4 @@
-# NexGen Agent Skills
+# Business Cortex Agent Skills
 
 Production-ready AI agent skills for business automation.
 
