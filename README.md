@@ -180,6 +180,20 @@ Positioning:
 python3 -m unittest discover -v
 ```
 
+## Client onboarding questionnaire
+
+Use the onboarding questionnaire to capture how a client thinks, decides,
+communicates, sells, handles risk, and defines success before configuring the
+agent system:
+
+```text
+docs/client-onboarding-questionnaire.md
+```
+
+The completed answers should be converted into client config, operating rules,
+workflow maps, approval policy, memory seeds, role-agent definitions, and a
+first-30-days implementation plan.
+
 ## Client account login plans
 
 Business Cortex can print safe setup/login plans for client-owned Google
