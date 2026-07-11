@@ -179,3 +179,16 @@ Positioning:
 ```bash
 python3 -m unittest discover -v
 ```
+
+## Client account login plans
+
+Business Cortex can print safe setup/login plans for client-owned Google
+Workspace and Microsoft Azure/M365 accounts:
+
+```bash
+python3 -m cortex.cli auth login google_workspace --config config/client.example.json
+python3 -m cortex.cli auth login microsoft_azure --config config/client.example.json
+```
+
+AWS login is intentionally not included yet; add it later only when the product
+needs AWS infrastructure automation for clients.

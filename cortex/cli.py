@@ -6,6 +6,7 @@ import argparse
 import json
 from pathlib import Path
 
+from cortex.auth.providers import build_login_plan
 from cortex.core.dispatcher import DryRunDispatcher, HermesCliDispatcher
 from cortex.core.orchestrator import BusinessCortex, DEFAULT_CONFIG
 
@@ -25,6 +26,13 @@ def build_parser() -> argparse.ArgumentParser:
     init.add_argument("path", help="Destination config path")
     init.add_argument("--name", default="Client Organization")
     init.add_argument("--industry", default="general business")
+
+    auth = sub.add_parser("auth", help="Build login plans for client integrations")
+    auth_sub = auth.add_subparsers(dest="auth_command", required=True)
+    login = auth_sub.add_parser("login", help="Print provider login/setup commands")
+    login.add_argument("provider", choices=["google_workspace", "microsoft_azure"])
+    login.add_argument("--config", dest="auth_config", help="Path to client config JSON")
+    login.add_argument("--format", choices=["json", "shell"], default="shell")
     return parser
 
 
@@ -46,6 +54,27 @@ def main(argv: list[str] | None = None) -> int:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(config, indent=2) + "\n")
         print(f"Wrote client config: {path}")
+        return 0
+
+    if args.command == "auth" and args.auth_command == "login":
+        config_path = getattr(args, "auth_config", None) or args.config
+        path = Path(config_path).expanduser()
+        config = json.loads(path.read_text()) if path.exists() else DEFAULT_CONFIG
+        plan = build_login_plan(args.provider, config)
+        if args.format == "json":
+            print(json.dumps(plan.to_dict(), indent=2))
+        else:
+            print(f"# {plan.provider} login plan ({plan.kind})")
+            if plan.prerequisites:
+                print("# prerequisites:")
+                for item in plan.prerequisites:
+                    print(f"# - {item}")
+            if plan.env_vars:
+                print("# required environment variables:")
+                for item in plan.env_vars:
+                    print(f"# - {item}")
+            for command in plan.commands:
+                print(command)
         return 0
 
     cortex = load_cortex(getattr(args, "run_config", None) or args.config)
