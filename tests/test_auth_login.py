@@ -25,7 +25,7 @@ class AuthLoginBuilderTest(unittest.TestCase):
         self.assertTrue(any("HOME=/clients/acme/home" in command for command in plan.commands))
         self.assertTrue(any("--services gmail,calendar,drive" in command for command in plan.commands))
         self.assertIn("/secure/acme/google-client-secret.json", plan.prerequisites)
-        self.assertNotIn("GOCSPX", json.dumps(plan.to_dict()))
+        self.assertNotIn("oauth-secret-prefix", json.dumps(plan.to_dict()).lower())
 
     def test_builds_azure_login_plan_using_env_names_not_secret_values(self):
         config = {

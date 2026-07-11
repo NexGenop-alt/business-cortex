@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Productized Business Cortex orchestrator.
 
-The orchestrator is intentionally tenant-agnostic: it can run for NexGen or any
+The orchestrator is intentionally tenant-agnostic: it can run for any
 client by swapping configuration. It does three things:
 
 1. Classify a business request into a workflow.

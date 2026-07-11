@@ -58,7 +58,7 @@ Business Cortex turns that into:
 ## Quick start
 
 ```bash
-git clone https://github.com/NexGenop-alt/business-cortex
+git clone <business-cortex-repo-url>
 cd business-cortex
 python3 -m unittest discover -v
 python3 -m cortex.cli run --config config/client.example.json \

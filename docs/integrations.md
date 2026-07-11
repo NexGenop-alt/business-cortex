@@ -6,7 +6,7 @@ core workflow stays the same; the integration adapter changes per client.
 ## Design rules
 
 - Keep integrations tenant-agnostic.
-- Never hardcode Jay, NexGen, or a specific client.
+- Never hardcode operator names, company names, or a specific client.
 - Build approval payloads first; execute only after approval.
 - Store credentials outside git in environment variables or provider-specific
   OAuth stores.

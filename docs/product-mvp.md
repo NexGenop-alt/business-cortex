@@ -1,7 +1,7 @@
 # Product MVP: Business Cortex as a sellable machine
 
-This document defines the non-Jay-specific machine that can be sold to many
-businesses before being adapted to NexGen's internal agents.
+This document defines a client-agnostic machine that can be sold to many
+businesses before being adapted to any operator's internal agents.
 
 ## Product promise
 
@@ -43,7 +43,7 @@ Why this first:
 
 ## Client-agnostic rules
 
-- Never hardcode Jay, NexGen, Memo, Revenue Chief, or Ace into product code.
+- Never hardcode operator names, company names, personal assistant names, sales-agent names, or internal project names into product code.
 - Client-specific names belong in config.
 - External sending/scheduling is gated by approval by default.
 - Specialist handoffs should be small enough to keep token cost low.

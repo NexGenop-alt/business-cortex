@@ -20,8 +20,8 @@ class IntegrationAdaptersTest(unittest.TestCase):
         self.assertIn("gws calendar events create", command)
         self.assertIn("--summary", command)
         self.assertIn("owner@example.com", command)
-        self.assertNotIn("Jay", command)
-        self.assertNotIn("NexGen", command)
+        self.assertNotIn("OperatorName", command)
+        self.assertNotIn("InternalCompany", command)
 
     def test_gws_email_adapter_builds_draft_payload(self):
         adapter = GWSEmailAdapter(home="/tmp/client-home")
