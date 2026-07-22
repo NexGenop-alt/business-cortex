@@ -28,9 +28,12 @@ entire brain to every specialist.
 
 ## Specialist policy
 
-Specialist agents should treat the private brain and skill tree as their primary knowledge
+All specialist agents should treat the private brain and skill tree as their primary knowledge
 layer. In runtimes that support profile-local durable memory, specialist profile memory should
 be disabled or treated as ephemeral unless the client explicitly opts in.
+
+This rule applies to every specialist role in the deployment, including sales, assistant,
+tech operations, support, operations, finance, legal, QA, knowledge, and CRM/contact roles.
 
 Recommended specialist flags for a Hermes-backed deployment:
 

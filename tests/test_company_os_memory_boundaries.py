@@ -56,9 +56,25 @@ class CompanyOSMemoryBoundaryTemplateTest(unittest.TestCase):
             self.assertIn("private brain is the durable company knowledge source", handoff.lower())
             self.assertIn("private brain is the durable business knowledge source", sales_soul.lower())
 
+    def test_hermes_setup_runbook_covers_install_and_memory_boundaries(self):
+        runbook = (REPO / "docs" / "setup" / "hermes-install-and-runbook.md").read_text(encoding="utf-8")
+
+        self.assertIn("curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash", runbook)
+        self.assertIn("iex (irm https://hermes-agent.nousresearch.com/install.ps1)", runbook)
+        self.assertIn("pip install hermes-agent", runbook)
+        self.assertIn("uv pip install hermes-agent", runbook)
+        self.assertIn("hermes setup", runbook)
+        self.assertIn("hermes doctor", runbook)
+        self.assertIn("memory.memory_enabled false", runbook)
+        self.assertIn("memory.user_profile_enabled false", runbook)
+        self.assertIn("memory.write_approval true", runbook)
+        self.assertIn("All specialist agents must use the **client Private Brain + Skill Tree**", runbook)
+        self.assertIn("Do not commit:", runbook)
+
     def test_template_uses_generic_client_safe_placeholders(self):
         scan_roots = [
             REPO / "docs" / "memory-boundaries.md",
+            REPO / "docs" / "setup",
             TEMPLATE_ROOT,
             REPO / "integration_design.md",
         ]

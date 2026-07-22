@@ -212,6 +212,16 @@ Template location:
 templates/company-os/
 ```
 
+## Hermes runtime setup
+
+Use the setup runbook to install Hermes on Linux, macOS, Windows, or WSL2 and apply the correct Business Cortex memory boundaries:
+
+```text
+docs/setup/hermes-install-and-runbook.md
+```
+
+Core rule: all specialist agents use the client Private Brain + Skill Tree as their primary knowledge layer instead of Hermes profile-local memory.
+
 ## Client account login plans
 
 Business Cortex can print safe setup/login plans for client-owned Google
