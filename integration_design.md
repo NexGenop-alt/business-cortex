@@ -2,9 +2,9 @@
 
 ## Overview
 
-This document describes how Hermes Agent (Jaime) orchestrates between **Graphify** (memory graph) and **Khoj** (search) to provide unified, cross-platform content retrieval for agent skills like `sales-agent`.
+This document describes how Hermes Agent orchestrates between **Graphify** (memory graph) and **Khoj** (search) to provide unified, cross-platform content retrieval for agent skills like `sales-agent`.
 
-**Vision**: "Find conversation with Jose on 4/13/26" returns content regardless of source (PDF, markdown, database, previous conversations).
+**Vision**: "Find conversation with Example Contact on 4/13/26" returns content regardless of source (PDF, markdown, database, previous conversations).
 
 ---
 
@@ -62,7 +62,7 @@ Each backend assigns confidence:
 
 ## 2. Skill Integration: Sales-Agent Example
 
-### 2.1 Use Case: "Find conversation with Jose on 4/13/26"
+### 2.1 Use Case: "Find conversation with Example Contact on 4/13/26"
 
 **Skill Implementation Pattern**:
 
@@ -100,10 +100,10 @@ def retrieve_past_conversations(person: str, date: str, topic: str = None):
 ### 2.2 How It Works
 
 ```
-Sales Agent triggers memory.search("Jose", date="2026-04-13")
+Sales Agent triggers memory.search("Example Contact", date="2026-04-13")
     ↓
 Hermes memory router dispatches to:
-    ├── Graphify: Check if "Jose" exists in indexed graph nodes
+    ├── Graphify: Check if "Example Contact" exists in indexed graph nodes
     │           Returns: nodes with conversations, linked via EXTRACTED edges
     │
     └── Khoj: Search content + conversation stores
@@ -111,11 +111,11 @@ Hermes memory router dispatches to:
     ↓
 Both results merged:
     - Sources from Khoj chat logs (conversations)
-    - PDF/md files mentioning "Jose" from both systems
+    - PDF/md files mentioning "Example Contact" from both systems
     - Graph relationships showing context connections
     ↓
 Ranked output with source attribution:
-    1. [khoj chat] "2026-04-13 conversation with Jose about Q2 pipeline..."
+    1. [khoj chat] "2026-04-13 conversation with Example Contact about Q2 pipeline..."
     2. [graphify pdf] "contract-jose-2026-04-13.pdf - page 2..."
     3. [khoj doc] "jose-notes.md - meeting summary..."
 ```
@@ -410,12 +410,12 @@ All skills gracefully skip optional components if unavailable.
 ### Example Query Flow
 
 ```
-User: "Find Jose conversation from April"
+User: "Find Example Contact conversation from April"
     ↓
-Hermes: memory.search("Jose", date_range="2026-04")
+Hermes: memory.search("Example Contact", date_range="2026-04")
     ↓
-Graphify: Query graph for "Jose" nodes → found in metadata.md
-Khoj: Search chat logs → found 3 conversations with Jose
+Graphify: Query graph for "Example Contact" nodes → found in metadata.md
+Khoj: Search chat logs → found 3 conversations with Example Contact
     ↓
 Merged: [
   {source: "khoj/chat", date: "2026-04-13", confidence: 0.85, snippet: "..."},

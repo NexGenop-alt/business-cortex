@@ -44,3 +44,12 @@ When delegating, include only:
 ## Approval Rules
 
 Ask for approval before external sends, calendar changes, destructive system changes, public posts, credential/access changes, or memory merges.
+
+
+## Source-of-Truth Memory Policy
+
+- Hermes/runtime may provide orchestration continuity, tools, gateways, and execution.
+- The client private brain is the durable company knowledge source.
+- The skill tree is the map of available workflows, tools, and capabilities.
+- Specialists should use the private brain + skill tree as primary reference, not profile-local memory.
+- Do not upload template-provider internal data into this client's private brain.

@@ -19,8 +19,10 @@ agents:
     reports_to: "{{ agents.orchestrator.reports_to }}"
     scope: {{ agents.orchestrator.scope | yaml_inline }}
     memory_access:
-      own_memory: true
-      may_review_company_context_when_needed: true
+      runtime_primary: "{{ memory_architecture.orchestrator.runtime_primary }}"
+      private_brain_access: {{ memory_architecture.orchestrator.can_access_private_brain | bool_lower }}
+      skill_tree_access: {{ memory_architecture.orchestrator.can_access_skill_tree | bool_lower }}
+      profile_memory_enabled: {{ memory_architecture.orchestrator.hermes_memory_enabled | bool_lower }}
       may_merge_specialist_memory: false
 
   techops:
@@ -29,7 +31,11 @@ agents:
     title: "{{ agents.techops.title }}"
     scope: {{ agents.techops.scope | yaml_inline }}
     memory_access:
-      own_memory_only: true
+      private_brain_primary: {{ memory_architecture.specialists.private_brain_primary | bool_lower }}
+      skill_tree_primary: {{ memory_architecture.specialists.skill_tree_primary | bool_lower }}
+      profile_memory_enabled: {{ memory_architecture.specialists.hermes_memory_enabled | bool_lower }}
+      user_profile_enabled: {{ memory_architecture.specialists.hermes_user_profile_enabled | bool_lower }}
+      write_approval: {{ memory_architecture.specialists.write_approval | bool_lower }}
       may_read_other_profiles: false
       may_merge_memory: false
 
@@ -39,7 +45,11 @@ agents:
     title: "{{ agents.scout.title }}"
     scope: {{ agents.scout.scope | yaml_inline }}
     memory_access:
-      own_memory_only: true
+      private_brain_primary: {{ memory_architecture.specialists.private_brain_primary | bool_lower }}
+      skill_tree_primary: {{ memory_architecture.specialists.skill_tree_primary | bool_lower }}
+      profile_memory_enabled: {{ memory_architecture.specialists.hermes_memory_enabled | bool_lower }}
+      user_profile_enabled: {{ memory_architecture.specialists.hermes_user_profile_enabled | bool_lower }}
+      write_approval: {{ memory_architecture.specialists.write_approval | bool_lower }}
       may_read_other_profiles: false
       may_merge_memory: false
 
@@ -49,7 +59,11 @@ agents:
     title: "{{ agents.assistant.title }}"
     scope: {{ agents.assistant.scope | yaml_inline }}
     memory_access:
-      own_memory_only: true
+      private_brain_primary: {{ memory_architecture.specialists.private_brain_primary | bool_lower }}
+      skill_tree_primary: {{ memory_architecture.specialists.skill_tree_primary | bool_lower }}
+      profile_memory_enabled: {{ memory_architecture.specialists.hermes_memory_enabled | bool_lower }}
+      user_profile_enabled: {{ memory_architecture.specialists.hermes_user_profile_enabled | bool_lower }}
+      write_approval: {{ memory_architecture.specialists.write_approval | bool_lower }}
       may_read_other_profiles: false
       may_merge_memory: false
 
@@ -59,7 +73,11 @@ agents:
     title: "{{ agents.sales.title }}"
     scope: {{ agents.sales.scope | yaml_inline }}
     memory_access:
-      own_memory_only: true
+      private_brain_primary: {{ memory_architecture.specialists.private_brain_primary | bool_lower }}
+      skill_tree_primary: {{ memory_architecture.specialists.skill_tree_primary | bool_lower }}
+      profile_memory_enabled: {{ memory_architecture.specialists.hermes_memory_enabled | bool_lower }}
+      user_profile_enabled: {{ memory_architecture.specialists.hermes_user_profile_enabled | bool_lower }}
+      write_approval: {{ memory_architecture.specialists.write_approval | bool_lower }}
       may_read_other_profiles: false
       may_merge_memory: false
 

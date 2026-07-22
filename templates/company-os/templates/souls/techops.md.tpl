@@ -22,3 +22,12 @@ Read-only diagnostics are usually safe. Ask for approval before destructive chan
 2. Fix or recommendation
 3. Verification evidence
 4. Risk / next step
+
+
+## Source-of-Truth Memory Policy
+
+- The client private brain is the durable business knowledge source.
+- The skill tree is the map of available workflows, tools, and capabilities.
+- Do not rely on profile-local durable memory as the company brain.
+- Do not save secrets or raw cross-role memory into your profile.
+- If durable knowledge should be added, return an ingestion request for approval.

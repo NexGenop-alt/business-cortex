@@ -67,6 +67,42 @@ agents:
       - proposals
       - close plans
 
+
+memory_architecture:
+  source_of_truth:
+    type: "private_brain"
+    label: "Client Private Brain"
+    purpose: "Shared searchable company knowledge for all specialist agents."
+    local_url: "http://127.0.0.1:42110/"
+    public_route: "https://brain.client-domain.example/khoj/"
+    stores_client_data: true
+  skill_tree:
+    label: "Client Skill Tree"
+    purpose: "Visual/organizational map of installed skills, workflows, and agent capabilities."
+  orchestrator:
+    runtime_primary: "hermes"
+    can_access_private_brain: true
+    can_access_skill_tree: true
+    hermes_memory_enabled: true
+    rule: >
+      The orchestrator may keep runtime/session continuity and company-wide coordination notes,
+      but the shared client knowledge source is the private brain.
+  specialists:
+    private_brain_primary: true
+    skill_tree_primary: true
+    hermes_memory_enabled: false
+    hermes_user_profile_enabled: false
+    write_approval: true
+    rule: >
+      Specialist agents use the private brain and skill tree as their primary knowledge layer.
+      They do not rely on profile-local memory as the client brain and they do not merge
+      memories across roles.
+  ingestion_policy:
+    raw_profile_memory_upload_allowed: false
+    client_approved_documents_only: true
+    preserve_role_boundaries: true
+    secrets_allowed: false
+
 approval_policy:
   drafts_allowed: true
   external_send_requires_approval: true

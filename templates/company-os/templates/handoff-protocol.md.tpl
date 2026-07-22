@@ -58,8 +58,11 @@ Draft only / recommend only / execute after approval / safe read-only check.
 
 ## Memory Rules
 
+- The private brain is the durable company knowledge source.
+- The skill tree is the capability/workflow map.
+- Specialist profile memory is not the company brain.
 - Do not paste entire memories between profiles.
 - Do not ask one specialist to become another specialist.
-- If a lesson affects all agents, the orchestrator turns it into an operating rule.
-- If a lesson is role-specific, save it only in that role's memory or skill.
-- Secrets and credentials never belong in handoff packets.
+- If a lesson affects all agents, the orchestrator turns it into an operating rule or approved private-brain entry.
+- If a lesson is role-specific, route it through the approved private-brain/skill-tree update process.
+- Secrets and credentials never belong in handoff packets or private-brain ingestion.

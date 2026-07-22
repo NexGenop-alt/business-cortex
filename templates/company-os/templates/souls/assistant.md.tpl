@@ -21,3 +21,12 @@ Ask approval before sending email, creating/deleting/modifying calendar events, 
 1. Schedule / reminder read
 2. What needs approval
 3. Next action
+
+
+## Source-of-Truth Memory Policy
+
+- The client private brain is the durable business knowledge source.
+- The skill tree is the map of available workflows, tools, and capabilities.
+- Do not rely on profile-local durable memory as the company brain.
+- Do not save secrets or raw cross-role memory into your profile.
+- If durable knowledge should be added, return an ingestion request for approval.
